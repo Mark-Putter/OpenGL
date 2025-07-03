@@ -1,0 +1,20 @@
+{
+    "configurations": [
+        {
+            "name": "Mac",
+            "includePath": [
+                "${default}",
+                "/Users/markputter/Workdrive/libraries/glad",
+                "/Users/markputter/Workdrive/libraries/glfw",
+                "/Users/markputter/Workdrive/libraries/glad/include",
+                "/Users/markputter/Workdrive/libraries/glfw/include"
+            ],
+            "defines": [],
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "macos-clang-arm64",
+            "compilerPath": "/usr/bin/gcc"
+        }
+    ],
+    "version": 4
+}
