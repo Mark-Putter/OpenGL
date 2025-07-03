@@ -1,4 +1,5 @@
 #include "shader.h"
+#include "../stb_image.h"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -57,6 +58,9 @@ int main()
     glEnableVertexAttribArray(1);
 
     Shader ourShader("src/shader.vs", "src/shader.fs");
+
+    int width, height, nrChannels;
+    unsigned char *data = stbi_load("container.jpg", &width, &height, &nrChannels, 0);
 
     // Render loop
     while (!glfwWindowShouldClose(window))
