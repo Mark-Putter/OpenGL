@@ -39,7 +39,7 @@ int main()
     }
 
     float vertices[] = {
-        // positions // colors // texture coords
+        // positions      // colors         // texture coords
         0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,   // top right
         0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,  // bottom right
         -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom left
@@ -48,7 +48,8 @@ int main()
 
     int indices[] = {
         0, 1, 2, // right triangle
-        0, 3, 2};
+        0, 3, 2
+    };
 
     // Creating a VAO / VBO 1
     unsigned int VBO, VAO, EBO;
@@ -125,6 +126,9 @@ int main()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
+    // Flip images on loading
+    stbi_set_flip_vertically_on_load(false);
+
     data = stbi_load("awesomeface.png", &width, &height, &nrChannels, 0);
     if (data)
     {
@@ -138,11 +142,20 @@ int main()
     ourShader.setInt("texture1", 0);
     ourShader.setInt("texture2", 1);
 
+    float mixRatio = 0.2;
+
     // Render loop
     while (!glfwWindowShouldClose(window))
     {
 
         processInput(window);
+
+        if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && mixRatio < 1) {
+            mixRatio += 0.01;
+        }
+        else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS && mixRatio > 0 ) {
+            mixRatio -= 0.01;
+        }
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
@@ -155,6 +168,8 @@ int main()
 
         // Render container
         ourShader.use();
+        ourShader.setFloat("mixRatio", mixRatio);
+
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
